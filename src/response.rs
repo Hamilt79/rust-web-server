@@ -1,3 +1,5 @@
+use crate::header::Header;
+
 pub struct Response {
     http_header: String,
     status_code: u16,
@@ -21,7 +23,7 @@ impl std::fmt::Display for Response {
 }
 
 impl Response {
-    pub fn new(data: String, status_code: u16, status_code_message: Option<String>) -> Response {
+    pub fn new(data: String, status_code: u16, status_code_message: Option<String>, header: Option<Header>) -> Response {
         let data_len = data.as_bytes().len();
         let status_code_str = match status_code_message {
                 Some(val)=> { val },

@@ -1,18 +1,19 @@
 use std::net::{TcpListener, TcpStream};
 
 pub struct Listener {
-    port: i16,
+    port: u16,
+    address: String,
     listener: Option<TcpListener>,
 }
 
 impl Listener {
 
-    pub fn new(port: i16) -> Listener {
-        Listener { port, listener: None }
+    pub fn new(port: u16, address: &String) -> Listener {
+        Listener { port, address: address.clone(), listener: None }
     }
 
     pub fn start_listener(&mut self, f: fn(TcpStream)) {
-        let listener = TcpListener::bind("127.0.0.1:".to_owned() + &self.port.to_string());
+        let listener = TcpListener::bind(self.address.clone() + ":" + &self.port.to_string());
         match listener {
             Ok(temp) => { self.listener = Some(temp); },
             Err(error) => { panic!("Could not open TCP port. {error}"); }
